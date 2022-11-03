@@ -1,117 +1,119 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
+import {View, Text, StatusBar, Image} from 'react-native';
 import React from 'react';
-import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import AppIntroSlider from 'react-native-app-intro-slider';
+import LinearGradient from 'react-native-linear-gradient';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const data = [
+  {
+    title: 'Title 1',
+    text: 'Description.\nSay something cool',
+    image: require('../../self-dev/onBoardUI/assets/images/Onboard1.png'),
+    bg: '#59b2ab',
+  },
+  {
+    title: 'Title 2',
+    text: 'Other cool stuff',
+    image: require('../../self-dev/onBoardUI/assets/images/Onboard2.png'),
 
-/* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
- * LTI update could not be added via codemod */
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
+    bg: '#febe29',
+  },
+  {
+    title: 'Rocket guy',
+    text: "I'm already out of descriptions\n\nLorem ipsum bla bla bla",
+    image: require('../../self-dev/onBoardUI/assets/images/Onboard3.png'),
 
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    bg: '#22bcb5',
+  },
+];
+const App = () => {
+  const renderDoneButton = () => {
+    return (
+      <LinearGradient
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 0}}
+        colors={['#4c669f', '#3b5998', '#192f6a']}
+        style={{
+          flex: 1,
+          paddingLeft: 15,
+          paddingRight: 15,
+          borderRadius: 25,
+          marginRight: -35,
+        }}>
+        <Text
+          style={{
+            fontSize: 18,
+            fontFamily: 'Gill Sans',
+            textAlign: 'center',
+            margin: 10,
+            color: '#ffffff',
+            backgroundColor: 'transparent',
+          }}>
+          Done
+        </Text>
+      </LinearGradient>
+    );
+  };
+  const renderNextButton = () => {
+    return (
+      <View
+        style={{
+          width: 60,
+          height: 60,
+          backgroundColor: '#000',
+          borderRadius: 30,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Text style={{color: 'white'}}>Next</Text>
+      </View>
+    );
+  };
+  const renderPrevButton = () => {
+    return (
+      <View
+        style={{
+          width: 60,
+          height: 60,
+          backgroundColor: '#000',
+          borderRadius: 30,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Text style={{color: 'white'}}>asd</Text>
+      </View>
+    );
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
+    <View style={{flex: 1}}>
+      <StatusBar translucent backgroundColor="transparent" />
+      <AppIntroSlider
+        data={data}
+        keyExtractor={item => item.title}
+        renderDoneButton={renderDoneButton}
+        renderNextButton={renderNextButton}
+        renderPrevButton={renderPrevButton}
+        showPrevButton
+        onDone={() => alert('Done')}
+        renderItem={({item}) => {
+          return (
+            <View
+              style={{
+                flex: 1,
+                backgroundColor: item.bg,
+                alignItems: 'center',
+                justifyContent: 'space-around',
+                padding: 20,
+              }}>
+              <Text style={{fontSize: 30, color: 'white'}}>{item.title}</Text>
+              <Text style={{fontSize: 20, color: 'white'}}>{item.text}</Text>
+              <Image source={item.image} style={{width: 200, height: 200}} />
+            </View>
+          );
+        }}
       />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
